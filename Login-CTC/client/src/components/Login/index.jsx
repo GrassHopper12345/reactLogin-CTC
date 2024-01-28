@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import cssStyles from "./styles.module.css";
+import styles from "./styles.module.css";
 
 const Login = () => {
     const [data, setData] = useState({ emails: "", password: "", });
@@ -18,13 +18,13 @@ const Login = () => {
             const { data: res } = await axios.post(url, data);
             localStorage.setItem("token", res.data);
             window.location = "/";
-        } catch (e) {
+        } catch (error) {
             if (
-                e.response &&
-                e.response.status >= 400 &&
-                e.response.status >= 500
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status >= 500
             ) {
-                setError(e.response.data.messsage);
+                setError(error.response.data.messsage);
             }
         }
     };
@@ -52,7 +52,7 @@ const Login = () => {
                             required
                             className={styles.input}
                         />
-                        {e && <div className={styles.error_msg}>{e}</div>}
+                        {error && <div className={styles.error_msg}>{error}</div>}
                         <button type="submit" className={styles.blue.btn}>Sign-In</button>
                     </form>
                 </div>
