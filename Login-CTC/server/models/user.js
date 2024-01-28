@@ -10,4 +10,23 @@ const userSchema = new mongoose.Schema({
     password: {type: String, required: true},
 });
 
-userSchema.methods
+userSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign({_id: this._id}, process.env.MYJWTKEY, {
+        expiresIn: "2d",
+    });
+    return token;
+};
+
+const User = mongoose.model("user", userSchema);
+
+const validate = (data) => {
+    const schema = Joi.object({
+        firstName: Joi.string().required().label("First Name"),
+        lastName: Joi.string().required().label("Last Name"),
+        email: Joi.string().email().required().label("Email"),
+        password: passwordComplexity().required().label("Password"),
+    });
+    return schema.validate(data);
+};
+
+module.ecports = {User, validate};
