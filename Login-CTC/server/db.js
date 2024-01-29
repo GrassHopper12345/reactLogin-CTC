@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-
+require("dotenv").config();
+console.log(process.env.DB);
 module.exports = () => {
     const connectionsParams = {
-        useNewParser: true,
         useUnifiedTopology: true,
     };
     try{
